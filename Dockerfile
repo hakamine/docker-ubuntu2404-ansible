@@ -1,5 +1,5 @@
 FROM ubuntu:24.04
-LABEL maintainer="Jeff Geerling"
+LABEL org.opencontainers.image.authors="hakamine@artefactual.com"
 
 ARG DEBIAN_FRONTEND=noninteractive
 
@@ -45,6 +45,9 @@ RUN echo "[local]\nlocalhost ansible_connection=local" > /etc/ansible/hosts
 # multiple containers with Molecule (https://github.com/ansible/molecule/issues/1104)
 RUN rm -f /lib/systemd/system/systemd*udev* \
   && rm -f /lib/systemd/system/getty.target
+
+# Create /usr/share/man/man1 dir to prevent OpenJDK installation errors
+RUN mkdir -p /usr/share/man/man1
 
 VOLUME ["/sys/fs/cgroup", "/tmp", "/run"]
 CMD ["/lib/systemd/systemd"]
